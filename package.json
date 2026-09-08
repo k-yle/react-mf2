@@ -1,6 +1,6 @@
 {
   "name": "react-mf2",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Renders MessageFormat v2 messages as React JSX elements",
   "license": "MIT",
   "type": "module",
