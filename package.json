@@ -1,0 +1,60 @@
+{
+  "name": "react-mf2",
+  "version": "0.0.0",
+  "description": "Renders MessageFormat v2 messages as React JSX elements",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "keywords": [
+    "messageformat",
+    "mf2",
+    "i18n",
+    "intl",
+    "react",
+    "jsx"
+  ],
+  "repository": "https://github.com/k-yle/react-mf2",
+  "types": "./dist/index.d.cts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown --exports --minify --format esm --format cjs",
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest"
+  },
+  "engines": {
+    "node": "^20.19 || ^22.13 || >=24"
+  },
+  "peerDependencies": {
+    "messageformat": "^4.0.0",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitest/coverage-v8": "^5.0.0",
+    "eslint": "^10.9.1",
+    "eslint-config-kyle": "^29.0.1",
+    "jsdom": "^30.0.1",
+    "messageformat": "^4.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tsdown": "^0.22.3",
+    "typescript": "^6",
+    "vitest": "^5.0.0"
+  },
+  "prettier": "eslint-config-kyle/prettier"
+}
