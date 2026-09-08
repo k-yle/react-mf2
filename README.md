@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/dt/react-mf2.svg)](https://www.npmjs.com/package/react-mf2)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-mf2)
 
-A super tiny library (**741 bytes**!) to render a [MessageFormat 2](https://github.com/unicode-org/message-format-wg) string as a react/JSX element.
+A super tiny library (**772 bytes**!) to render a [MessageFormat 2](https://github.com/unicode-org/message-format-wg) string as a react/JSX element.
 
 This library can be used with any translation system, it has 0 dependencies, and only has peer-dependencies on [react](https://npm.im/react) and [messageformat](https://npm.im/messageformat) itself.
 
@@ -51,7 +51,7 @@ npm install react-mf2
 
 `react` and `messageformat` are peer dependencies, you need to install them yourself.
 
-You also need nodejs v20.19 or newer.
+This library tries to support ancient tech stacks: a CommonsJS bundle is still published, NodeJS can be as old as v20.19, and even React v16.14 is still supported.
 
 ## Usage
 
@@ -116,6 +116,16 @@ formatToJsx(message, params, {
   u: 'u',
 });
 ```
+
+## Security
+
+MessageFormat 2 allows translators to define markup attributes, which become react component props.
+For example: `{#link href=|https://example.com|} click here {/link}`.
+
+Some clearly unacceptable props are blocked, like [`children`](https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children) and [`dangerouslySetInnerHTML`](https://legacy.reactjs.org/docs/dom-elements.html#dangerouslysetinnerhtml).
+As of React v19, [`javascript:` URLs are also blocked](https://github.com/react/react/pull/26507).
+However, just like any other React component library, this library does not attempt to sanitise malicious values like `href=|javascript:alert(1)|`.
+That is the reponsibility of the app.
 
 ## Why another library?
 

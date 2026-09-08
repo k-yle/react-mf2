@@ -28,7 +28,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown --exports --minify --format esm --format cjs",
+    "build": "tsdown --exports --minify --format esm --format cjs --target es2018",
     "lint": "eslint .",
     "typecheck": "tsc",
     "test": "vitest"
@@ -38,7 +38,7 @@
   },
   "peerDependencies": {
     "messageformat": "^4.0.0",
-    "react": ">=18"
+    "react": ">=16.14"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",

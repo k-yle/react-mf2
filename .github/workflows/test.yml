@@ -10,10 +10,12 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  node:
+    name: node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         node-version:
           - 22.13.0
@@ -38,3 +40,34 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
       - run: npm test
+
+  react:
+    name: react ${{ matrix.react }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - react: 16
+            testFileFilter: src/__tests__/index.test.tsx
+          - react: 17
+            testFileFilter: src/__tests__/index.test.tsx
+          - react: 18
+            testFileFilter: ""
+          - react: 19
+            testFileFilter: ""
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 26.x
+
+      - name: Downgrade react to v${{ matrix.react }}
+        run: |
+          npm pkg set devDependencies.react=${{ matrix.react }} devDependencies.react-dom=${{ matrix.react }}
+          npm i --force
+
+      - run: npm test -- ${{ matrix.testFileFilter }}

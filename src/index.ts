@@ -22,7 +22,8 @@ const BIDI_DIR: Record<string, string | undefined> = {
  * not be passed into react props (since they're special).
  */
 // TODO: maybe style could be allowed?
-const UNSAFE_PROPS = /^(u:|(children|dangerouslySetInnerHTML|key|ref|style)$)/;
+const UNSAFE_PROPS =
+  /^(u:|(children|dangerouslySetInnerHTML|key|ref|srcDoc|style)$)/i;
 
 type ExhaustivityCheck<_T extends never> = never;
 
@@ -63,7 +64,7 @@ export function formatToJsx<P extends string = never>(
   markup?: MarkupHandlers,
   options?: Options,
 ): ReactNode {
-  const onError = options?.onError ?? console.warn;
+  const onError = options?.onError || console.warn;
 
   const parts = (message as MessageFormat<string, never>).formatToParts(
     params,
@@ -82,7 +83,8 @@ export function formatToJsx<P extends string = never>(
   // helpers for mutating the stack
 
   function create(node: ReactNode) {
-    stack.at(-1)!.push(node);
+    // eslint-disable-next-line unicorn/prefer-at -- for backwards compat
+    stack[stack.length - 1]!.push(node);
   }
 
   function enter(type: ElementType, props?: Record<string, unknown>) {
@@ -116,7 +118,8 @@ export function formatToJsx<P extends string = never>(
       case 'markup': {
         let Component =
           markup &&
-          Object.hasOwn(markup, part.name) && // guard against .constuctor
+          // eslint-disable-next-line prefer-object-has-own, prefer-reflect -- for backwards compat
+          Object.prototype.hasOwnProperty.call(markup, part.name) && // guard against .constuctor
           markup[part.name];
 
         if (!Component) {

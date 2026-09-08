@@ -1,4 +1,5 @@
 /* eslint-disable quotes -- for the mf2 vscode extension */
+import { version as reactVersion } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import {
   MessageFormat,
@@ -313,12 +314,16 @@ describe(formatToJsx, () => {
     });
 
     it("uses react's existing behaviour to block javascript: URLs", () => {
+      const isReact19 = +reactVersion.split('.', 1)[0]! >= 19;
+
       expect(
         runTest(/* mf2 */ `{#a href=|javascript:alert(1)|}x{/a}`, undefined, {
           a: 'a',
         }),
       ).toBe(
-        '<a href="javascript:throw new Error(&#x27;React has blocked a javascript: URL as a security precaution.&#x27;)">x</a>',
+        isReact19
+          ? '<a href="javascript:throw new Error(&#x27;React has blocked a javascript: URL as a security precaution.&#x27;)">x</a>'
+          : '<a href="javascript:alert(1)">x</a>',
       );
     });
   });
